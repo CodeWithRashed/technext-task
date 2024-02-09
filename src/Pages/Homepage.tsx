@@ -1,7 +1,9 @@
+import SearchBar from "../Components/SearchBar"
+
 const Homepage = () => {
   return (
     <div>
-      Hello From Homepage
+       <SearchBar/>
     </div>
   )
 }
