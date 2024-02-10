@@ -12,46 +12,48 @@ import { User } from "../Interfaces/Interfaces";
 const Homepage = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [viewBy, setViewBy] = useState("grid");
-  const [sortValue, setSortValue] = useState('');
+  const [sortValue, setSortValue] = useState("");
   const [sortedData, setSortedData] = useState<User[]>([]);
+  const [searchData, setSearchData] = useState("");
   const loaderData = useLoaderData() as User[];
-
+  
   useEffect(() => {
-   
-    const sortData = () => {
-      const dataToSort = [...loaderData]
-        switch (sortValue) {
-        case 'name':
-          dataToSort.sort((a, b) => (a.firstName > b.firstName ? 1 : -1));
+    const sortAndFilterData = () => {
+      let filteredData = [...loaderData];
+
+      //SEARCH BY NAME FIRST NAME
+      if (searchData) {
+        const lowerCaseSearchData = searchData.toLowerCase();
+        filteredData = filteredData.filter(user =>
+          user.firstName.toLowerCase().includes(lowerCaseSearchData) || user.lastName.toLowerCase().includes(lowerCaseSearchData)
+        );
+      }
+
+    //  SORT USING NAME, COMPANY, EMAIL
+      switch (sortValue) {
+        case "name":
+          filteredData.sort((a, b) => a.firstName.localeCompare(b.firstName));
           break;
-        case 'email':
-          dataToSort.sort((a, b) => (a.email > b.email ? 1 : -1));
+        case "email":
+          filteredData.sort((a, b) => a.email.localeCompare(b.email));
           break;
-        case 'company':
-          dataToSort.sort((a, b) => (a.company.name > b.company.name ? 1 : -1));
+        case "company":
+          filteredData.sort((a, b) => a.company.name.localeCompare(b.company.name));
           break;
         default:
-        
           break;
       }
-     setSortedData(dataToSort)
+
+      setSortedData(filteredData);
     };
 
-    sortData();
-  }, [sortValue, loaderData]);
+    sortAndFilterData();
+  }, [loaderData, sortValue, searchData]);
 
-  
-  if (!sortedData) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar setSearchData={setSearchData}/>
       <div className="p-2 mt-2 bg-gray-100 rounded-t flex justify-between">
         <div className="flex gap-2 items-center">
           {/* CHANGE VIEW */}
@@ -77,21 +79,28 @@ const Homepage = () => {
             )}
           </div>
 
-          <select onChange={(event)=> {
-             const selectedValue = event.target.value;
-             setSortValue(selectedValue)
-          }} className="bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3">
+          <select
+            onChange={(event) => {
+              const selectedValue = event.target.value;
+              setSortValue(selectedValue);
+            }}
+            className="bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3"
+          >
             <option value="">Sort..</option>
             <option value="name">Sort By Name</option>
             <option value="email">Sort By Email</option>
             <option value="company">Sort By Company</option>
           </select>
         </div>
-        <p className="badge">
+        <div className="badge">
           <div className="bg-gray-900 p-2 text-white relative rounded">
-            <span>Sorted By: </span><span className="uppercase">{sortValue}</span><button className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white"><CiCircleRemove/></button>
+            <span>Sorted By: </span>
+            <span className="uppercase">{sortValue}</span>
+            <button className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white">
+              <CiCircleRemove />
+            </button>
           </div>
-        </p>
+        </div>
 
         {/* ADD USER AND MODAL */}
         <div>

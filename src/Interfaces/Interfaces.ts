@@ -103,3 +103,7 @@ export interface UserCardProps {
   export interface ModalButtonProps {
     setShowModal: (show: boolean) => void;
 }
+
+export interface SearchButtonProps {
+    setSearchData: (searchData: string) => void;
+}
