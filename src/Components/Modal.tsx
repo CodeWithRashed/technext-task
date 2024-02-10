@@ -1,7 +1,4 @@
-interface ModalProps {
-  isShowModal: boolean;
-  onClose: () => void;
-}
+import { ModalProps } from "../Interfaces/Interfaces";
 
 const Modal = ({ isShowModal, onClose }: ModalProps) => {
   if (!isShowModal) return null;

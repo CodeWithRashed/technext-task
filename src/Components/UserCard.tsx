@@ -2,12 +2,8 @@ import { IoLocation } from "react-icons/io5";
 import { CgOrganisation } from "react-icons/cg";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { User } from "../Pages/Homepage";
+import { UserCardProps } from "../Interfaces/Interfaces";
 
-
-interface UserCardProps {
-  user: User;
-}
 
 const UserCard = ({ user }:UserCardProps) => {
   return (

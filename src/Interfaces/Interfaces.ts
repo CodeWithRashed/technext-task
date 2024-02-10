@@ -33,6 +33,13 @@ interface Bank {
     iban: string;
 }
 
+//ModalProps
+export interface ModalProps {
+    isShowModal: boolean;
+    onClose: () => void;
+  }
+  
+
 export interface UserDetails {
     id: number;
     firstName: string;
@@ -50,3 +57,49 @@ export interface UserDetails {
     age: number;
 }
 
+
+export interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    image: string;
+    address: {
+      address: string;
+      city: string;
+      coordinates: {
+        lat: number;
+        lng: number;
+      };
+      postalCode: string;
+      state: string;
+    };
+    company: {
+      address: {
+        address: string;
+        city: string;
+        coordinates: {
+          lat: number;
+          lng: number;
+        };
+        postalCode: string;
+        state: string;
+      };
+      department: string;
+      name: string;
+      title: string;
+    };
+  }
+  
+
+//UserCardProps
+export interface UserCardProps {
+    user: User;
+  }
+  
+
+
+  //ModalButtonProps
+  export interface ModalButtonProps {
+    setShowModal: (show: boolean) => void;
+}

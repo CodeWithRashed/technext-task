@@ -6,38 +6,7 @@ import Modal from "../Components/Modal";
 import SearchBar from "../Components/SearchBar";
 import UserCard from "../Components/UserCard";
 import { useLoaderData } from "react-router-dom";
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  image: string;
-  address: {
-    address: string;
-    city: string;
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-    postalCode: string;
-    state: string;
-  };
-  company: {
-    address: {
-      address: string;
-      city: string;
-      coordinates: {
-        lat: number;
-        lng: number;
-      };
-      postalCode: string;
-      state: string;
-    };
-    department: string;
-    name: string;
-    title: string;
-  };
-}
+import { User } from "../Interfaces/Interfaces";
 
 const Homepage = () => {
   const [isShowModal, setIsShowModal] = useState(false);

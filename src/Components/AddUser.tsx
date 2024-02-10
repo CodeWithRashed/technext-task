@@ -1,6 +1,5 @@
-interface ModalButtonProps {
-    setShowModal: (show: boolean) => void;
-}
+import { ModalButtonProps } from "../Interfaces/Interfaces";
+
 const AddUser = ({ setShowModal }: ModalButtonProps) => {
   return (
     <div>
