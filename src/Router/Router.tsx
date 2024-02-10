@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layout/MainLayout";
 import Homepage from "../Pages/Homepage";
 import UserDetailsPage from "../Pages/UserDetailsPage";
+import { getUserData } from "../utils/getUserData";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Homepage/>,
+        loader: () => getUserData()
       },
       {
         path: "/user/:id",

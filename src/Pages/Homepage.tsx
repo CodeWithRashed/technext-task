@@ -5,12 +5,15 @@ import AddUser from "../Components/AddUser";
 import Modal from "../Components/Modal";
 import SearchBar from "../Components/SearchBar";
 import UserCard from "../Components/UserCard";
+import { useLoaderData } from "react-router-dom";
 
 const Homepage = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [viewBy, setViewBy] = useState("grid");
-
+const userData = useLoaderData()
+console.log(userData)
   return (
+    
     <div>
       <SearchBar />
       <div className="p-2 mt-2 bg-gray-100 rounded-t flex justify-between">
@@ -60,10 +63,12 @@ const Homepage = () => {
       </div>
       {!isShowModal && (
         <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
+          {userData.map(user => (
+            <div>
+              <UserCard data={user} />
+               </div>
+          ))}
+          
         </div>
       )}
     </div>
