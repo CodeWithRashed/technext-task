@@ -13,7 +13,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
     const firstName = form.first_name.value
     const lastName = form.last_name.value
     const email = form.email.value
-    const image = form.image.value
+    const image = form.image.files[0]
     const company = form.company.value
     const address = form.street.value
     const city = form.city.value
