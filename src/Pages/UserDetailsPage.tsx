@@ -10,8 +10,6 @@ import { UserDetails } from "../Interfaces/Interfaces";
 const UserDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("details");
   const data = useLoaderData() as UserDetails
-  console.log(data)
-
   
   if(!data){
     return <div className="w-screen h-screen flex justify-center items-center">Loading...</div>

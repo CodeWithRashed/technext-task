@@ -1,33 +1,48 @@
+import axios from "axios";
 import { ModalProps } from "../Interfaces/Interfaces";
+import { UploadImage } from "../utils/UploadImage";
 
 const Modal = ({ isShowModal, onClose }: ModalProps) => {
   if (!isShowModal) return null;
-  const handleFromSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const form = event.target as HTMLFormElement
+  const handleFromSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
 
-    //FORM DATA 
-    const firstName = form.first_name.value
-    const lastName = form.last_name.value
-    const email = form.email.value
-    const image = form.image.files[0]
-    const company = form.company.value
-    const address = form.street.value
-    const city = form.city.value
-    // USER OBJECT
-    const user = {
+    //FORM DATA
+    const firstName = form.first_name.value;
+    const lastName = form.last_name.value;
+    const email = form.email.value;
+    const image = form.image.files[0];
+    const company = form.company.value;
+    const address = form.street.value;
+    const city = form.city.value;
+
+    try {
+      //  UPLOAD IMAGE
+      const imageUploadResponse = await UploadImage(image);
+      const userImage = imageUploadResponse.data.data.url;
+
+      // USER OBJECT
+      const user = {
         firstName,
         lastName,
         email,
-        image,
+        image: userImage,
         company,
         address: {
-            address: address,
-            city: city
-        }
+          address: address,
+          city: city,
+        },
+      };
+      const response = await axios.post(
+        "https://dummyjson.com/users/add",
+        user
+      );
+      console.log("res", response);
+    } catch (error) {
+      console.log(error);
     }
-    console.log(user)
-  }
+  };
 
   return (
     <div className="backdrop-blur absolute top-5 left-0 h-full w-full flex justify-center items-center p-10 transition-all ease-in-out">
@@ -44,6 +59,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                   First Name:
                 </label>
                 <input
+                  required
                   type="text"
                   name="first_name"
                   className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -55,6 +71,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                   Last Name:
                 </label>
                 <input
+                  required
                   type="text"
                   name="last_name"
                   className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -67,6 +84,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                 Email:
               </label>
               <input
+                required
                 type="email"
                 name="email"
                 className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -74,13 +92,13 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
               />
             </div>
             <div className="input-group lg:grid lg:grid-cols-3 gap-2 w-full mt-2">
-              
               <div className="input-group col-span-2">
                 <label className="block mb-2" htmlFor="image">
                   Profile Picture:
                 </label>
                 <input
-                name="image"
+                  required
+                  name="image"
                   className="border p-1.5 rounded file:border-0 
                           !file:bg-gray-100 file:rounded"
                   type="file"
@@ -91,6 +109,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                   Company:
                 </label>
                 <input
+                  required
                   name="company"
                   type="text"
                   className="bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -101,7 +120,6 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
 
             {/* ADDRESS INPUT GROUP */}
             <div>
-             
               {/* STREET ADDRESS */}
               <div className="input-group-address lg:grid lg:grid-cols-2 gap-2 w-full">
                 <div className="col-span-2">
@@ -109,6 +127,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                     Street:
                   </label>
                   <input
+                    required
                     name="street"
                     type="text"
                     className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -120,6 +139,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                     City:
                   </label>
                   <input
+                    required
                     name="city"
                     type="text"
                     className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
@@ -131,6 +151,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                     State:
                   </label>
                   <input
+                    required
                     type="state"
                     className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
                     placeholder="Enter your email.."
