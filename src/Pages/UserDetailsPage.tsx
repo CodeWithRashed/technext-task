@@ -5,16 +5,18 @@ import { IoLocation } from "react-icons/io5";
 import { CgOrganisation } from "react-icons/cg";
 import { MdEmail, MdPayment } from "react-icons/md";
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import { UserDetails } from "../Interfaces/Interfaces";
 const UserDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("details");
+  const data = useLoaderData() as UserDetails
+  console.log(data)
 
-  const userData = {
-    name: "Rashed",
-    image: "https://robohash.org/Terry.png?set=set5",
-    title: "Web Developer",
-    email: "talk.rashed@gmail.com",
-    companyName: "TechNext Ltd",
-  };
+  
+  if(!data){
+    return <div className="w-screen h-screen flex justify-center items-center">Loading...</div>
+  }
+
 
   return (
     <div>
@@ -22,23 +24,23 @@ const UserDetailsPage = () => {
         {/* BANNER */}
         <div className="banner w-full h-[20vh] overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5"
+            src=""
             alt="banner-bg"
           />
         </div>
         {/* AVATAR || IMAGE */}
         <div className="flex justify-center items-center -mt-16 bg-white">
           <img
-            src={userData.image}
-            alt={userData.name}
+            src={data.image}
+            alt={data.firstName}
             className="w-32 h-32 rounded-full shadow-md bg-white p-2"
           />
         </div>
 
         {/* USER DETAILS INFO */}
         <div className="text-center">
-          <h1 className="text-center text-3xl">{userData.name}</h1>
-          <h3 className="text-base text-gray-400">{userData.title}</h3>
+          <h1 className="text-center text-3xl">{`${data.firstName} ${data.lastName}`}</h1>
+          <h3 className="text-base text-gray-400">{data.company.title}</h3>
         </div>
 
         {/* CARD Footer */}

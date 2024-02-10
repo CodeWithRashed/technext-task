@@ -3,6 +3,7 @@ import MainLayout from "../Layout/MainLayout";
 import Homepage from "../Pages/Homepage";
 import UserDetailsPage from "../Pages/UserDetailsPage";
 import { getUserData } from "../utils/getUserData";
+import { getSingleUser } from "../utils/getSingleUser";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       {
         path: "/user/:id",
         element: <UserDetailsPage/>,
+        loader: ({params}) => getSingleUser(params.id!)
       },
     ],
   },
