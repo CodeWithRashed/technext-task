@@ -16,7 +16,7 @@ const Homepage = () => {
   const [sortedData, setSortedData] = useState<User[]>([]);
   const [searchData, setSearchData] = useState("");
   const loaderData = useLoaderData() as User[];
-  
+
   useEffect(() => {
     const sortAndFilterData = () => {
       let filteredData = [...loaderData];
@@ -24,12 +24,14 @@ const Homepage = () => {
       //SEARCH BY NAME FIRST NAME
       if (searchData) {
         const lowerCaseSearchData = searchData.toLowerCase();
-        filteredData = filteredData.filter(user =>
-          user.firstName.toLowerCase().includes(lowerCaseSearchData) || user.lastName.toLowerCase().includes(lowerCaseSearchData)
+        filteredData = filteredData.filter(
+          (user) =>
+            user.firstName.toLowerCase().includes(lowerCaseSearchData) ||
+            user.lastName.toLowerCase().includes(lowerCaseSearchData)
         );
       }
 
-    //  SORT USING NAME, COMPANY, EMAIL
+      //  SORT USING NAME, COMPANY, EMAIL
       switch (sortValue) {
         case "name":
           filteredData.sort((a, b) => a.firstName.localeCompare(b.firstName));
@@ -38,7 +40,9 @@ const Homepage = () => {
           filteredData.sort((a, b) => a.email.localeCompare(b.email));
           break;
         case "company":
-          filteredData.sort((a, b) => a.company.name.localeCompare(b.company.name));
+          filteredData.sort((a, b) =>
+            a.company.name.localeCompare(b.company.name)
+          );
           break;
         default:
           break;
@@ -50,10 +54,9 @@ const Homepage = () => {
     sortAndFilterData();
   }, [loaderData, sortValue, searchData]);
 
-
   return (
     <div>
-      <SearchBar setSearchData={setSearchData}/>
+      <SearchBar setSearchData={setSearchData} />
       <div className="p-2 mt-2 bg-gray-100 rounded-t flex justify-between">
         <div className="flex gap-2 items-center">
           {/* CHANGE VIEW */}
@@ -93,13 +96,20 @@ const Homepage = () => {
           </select>
         </div>
         <div className="badge">
-          <div className="bg-gray-900 p-2 text-white relative rounded">
-            <span>Sorted By: </span>
-            <span className="uppercase">{sortValue}</span>
-            <button className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white">
-              <CiCircleRemove />
-            </button>
-          </div>
+          {sortValue && (
+            <div className="bg-gray-900 p-2 text-white relative rounded">
+              <span>Sorted By: </span>
+              <span className="uppercase">{sortValue}</span>
+              <button
+                onClick={() => {
+                  setSortValue("");
+                }}
+                className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white"
+              >
+                <CiCircleRemove />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* ADD USER AND MODAL */}
