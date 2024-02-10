@@ -83,10 +83,11 @@ const Homepage = () => {
           </div>
 
           <select
-            onChange={(event) => {
-              const selectedValue = event.target.value;
-              setSortValue(selectedValue);
-            }}
+           value={sortValue}
+           onChange={(event) => {
+             const selectedValue = event.target.value;
+             setSortValue(selectedValue);
+           }}
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3"
           >
             <option value="">Sort..</option>
