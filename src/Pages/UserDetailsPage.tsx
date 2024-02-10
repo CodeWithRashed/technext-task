@@ -24,7 +24,7 @@ const UserDetailsPage = () => {
         {/* BANNER */}
         <div className="banner w-full h-[20vh] overflow-hidden">
           <img
-            src=""
+            src="https://images.unsplash.com/photo-1597773150796-e5c14ebecbf5"
             alt="banner-bg"
           />
         </div>
