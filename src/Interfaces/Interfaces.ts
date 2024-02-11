@@ -125,3 +125,15 @@ export interface InputFieldData {
   placeholder: string
   required: boolean
 }
+// NewCreatedUser
+export interface NewCreatedUser {
+  firstName: string
+  lastName: string
+  email: string
+  image: string
+  company: string
+  address : {
+      address: string
+      city: string
+  }
+}
