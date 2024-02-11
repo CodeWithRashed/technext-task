@@ -1,7 +1,6 @@
-import { CiCircleRemove } from "react-icons/ci";
-import { FaThList } from "react-icons/fa";
+import { IoGridOutline } from "react-icons/io5";
+import { IoList } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { MdGridView } from "react-icons/md";
 import AddUser from "../Components/AddUser";
 import Modal from "../Components/Modal";
 import SearchBar from "../Components/SearchBar";
@@ -9,6 +8,8 @@ import UserCard from "../Components/UserCard";
 import { useLoaderData } from "react-router-dom";
 import { User } from "../Interfaces/Interfaces";
 import { getUserData } from "../utils/getUserData";
+import UserCardListView from "../Components/UserCardListView";
+import { CiCircleRemove } from "react-icons/ci";
 
 const Homepage = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -18,11 +19,9 @@ const Homepage = () => {
   const [searchData, setSearchData] = useState("");
   const [loadMore, setLoadMore] = useState(0);
   const loaderData = useLoaderData() as User[];
- console.log(sortedData)
- 
 
   useEffect(() => {
-    //HANDLE SORT 
+    //HANDLE SORT
     const sortAndFilterData = () => {
       let filteredData = [...loaderData];
 
@@ -55,18 +54,18 @@ const Homepage = () => {
 
       setSortedData(filteredData);
     };
-//HANDLE LOAD MORE DATA
-const handleLoadMore = async () => {
-  if (loadMore) {
-    const nextSkipCount: number = loadMore 
-    const nextUserData = await getUserData({ skip: nextSkipCount });
-    const newData = [...sortedData, ...nextUserData];
-    setSortedData(newData);
-  }
-};
+    //HANDLE LOAD MORE DATA
+    const handleLoadMore = async () => {
+      if (loadMore) {
+        const nextSkipCount: number = loadMore;
+        const nextUserData = await getUserData({ skip: nextSkipCount });
+        const newData = [...sortedData, ...nextUserData];
+        setSortedData(newData);
+      }
+    };
 
     sortAndFilterData();
-    handleLoadMore()
+    handleLoadMore();
   }, [loaderData, sortValue, searchData, loadMore]);
 
   return (
@@ -83,7 +82,7 @@ const handleLoadMore = async () => {
                 }}
                 className="hover:bg-gray-50 rounded-full p-2"
               >
-                <MdGridView className="text-2xl" />
+                <IoGridOutline className="text-2xl" />
               </button>
             ) : (
               <button
@@ -92,7 +91,7 @@ const handleLoadMore = async () => {
                 }}
                 className="hover:bg-gray-50 rounded-full p-2"
               >
-                <FaThList className="text-xl" />
+                <IoList className="text-2xl" />
               </button>
             )}
           </div>
@@ -140,17 +139,36 @@ const handleLoadMore = async () => {
         </div>
       </div>
       {!isShowModal && (
-        <div>
-          <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
-            {sortedData.map((user) => (
-              <div key={user.id}>
-                <UserCard user={user} />
+        <div className="card-view-container">
+          {/* LIST VIEW */}
+          {viewBy == "list" && (
+            <div className="list-view">
+              <div className="bg-gray-50 p-3 flex flex-col gap-3">
+                {sortedData.map((user) => (
+                  <div key={user.id}>
+                    <UserCardListView user={user} />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {/* GIRD VIEW */}
+          {viewBy == "grid" && (
+            <div className="grid-view">
+              <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
+                {sortedData.map((user) => (
+                  <div key={user.id}>
+                    <UserCard user={user} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* LOAD MORE BUTTON */}
           <button
-          className="bg-gray-900 py-2 px-6 text-white rounded block mx-auto mt-10"
+            className="bg-gray-900 py-2 px-6 text-white rounded block mx-auto mt-10"
             onClick={() => {
               setLoadMore(loadMore + 6);
             }}
