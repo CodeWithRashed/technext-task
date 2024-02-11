@@ -8,6 +8,7 @@ import SearchBar from "../Components/SearchBar";
 import UserCard from "../Components/UserCard";
 import { useLoaderData } from "react-router-dom";
 import { User } from "../Interfaces/Interfaces";
+import { getUserData } from "../utils/getUserData";
 
 const Homepage = () => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -15,9 +16,13 @@ const Homepage = () => {
   const [sortValue, setSortValue] = useState("");
   const [sortedData, setSortedData] = useState<User[]>([]);
   const [searchData, setSearchData] = useState("");
+  const [loadMore, setLoadMore] = useState(0);
   const loaderData = useLoaderData() as User[];
+ console.log(sortedData)
+ 
 
   useEffect(() => {
+    //HANDLE SORT 
     const sortAndFilterData = () => {
       let filteredData = [...loaderData];
 
@@ -50,9 +55,19 @@ const Homepage = () => {
 
       setSortedData(filteredData);
     };
+//HANDLE LOAD MORE DATA
+const handleLoadMore = async () => {
+  if (loadMore) {
+    const nextSkipCount: number = loadMore 
+    const nextUserData = await getUserData({ skip: nextSkipCount });
+    const newData = [...sortedData, ...nextUserData];
+    setSortedData(newData);
+  }
+};
 
     sortAndFilterData();
-  }, [loaderData, sortValue, searchData]);
+    handleLoadMore()
+  }, [loaderData, sortValue, searchData, loadMore]);
 
   return (
     <div>
@@ -83,11 +98,11 @@ const Homepage = () => {
           </div>
 
           <select
-           value={sortValue}
-           onChange={(event) => {
-             const selectedValue = event.target.value;
-             setSortValue(selectedValue);
-           }}
+            value={sortValue}
+            onChange={(event) => {
+              const selectedValue = event.target.value;
+              setSortValue(selectedValue);
+            }}
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3"
           >
             <option value="">Sort..</option>
@@ -125,12 +140,23 @@ const Homepage = () => {
         </div>
       </div>
       {!isShowModal && (
-        <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
-          {sortedData.map((user) => (
-            <div key={user.id}>
-              <UserCard user={user} />
-            </div>
-          ))}
+        <div>
+          <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
+            {sortedData.map((user) => (
+              <div key={user.id}>
+                <UserCard user={user} />
+              </div>
+            ))}
+          </div>
+          {/* LOAD MORE BUTTON */}
+          <button
+          className="bg-gray-900 py-2 px-6 text-white rounded block mx-auto mt-10"
+            onClick={() => {
+              setLoadMore(loadMore + 6);
+            }}
+          >
+            Load More
+          </button>
         </div>
       )}
     </div>
