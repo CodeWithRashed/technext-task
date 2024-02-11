@@ -30,7 +30,7 @@ const UserCard = ({ user }:UserCardProps) => {
         {/* COMPANY AND OTHER INFO */}
         <ul>
           <li className="flex gap-2 items-center"><CgOrganisation /> <h3>{user.company.name}</h3></li>
-          <li className="flex gap-2 items-center"><IoLocation /><p>{`${user.address.address}, ${user.address.city}`}</p></li>
+          <li className="flex gap-2 items-center"><IoLocation /><p className="truncate">{`${user.address.address}, ${user.address.city}`}</p></li>
           <li className="flex gap-2 items-center"><MdEmail /><p>{user.email}</p></li>
         </ul>
       </div>

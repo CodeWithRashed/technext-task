@@ -69,76 +69,73 @@ const Homepage = () => {
   }, [loaderData, sortValue, searchData, loadMore]);
 
   return (
-    <div>
-      <SearchBar setSearchData={setSearchData} />
-      <div className="p-2 mt-2 bg-gray-100 rounded-t flex justify-between">
-        <div className="flex gap-2 items-center">
-          {/* CHANGE VIEW */}
-          <div>
-            {viewBy == "list" ? (
-              <button
-                onClick={() => {
-                  setViewBy("grid");
+    <div className="app">
+      <div className={`${isShowModal && "blur-sm"}`}>
+        <SearchBar setSearchData={setSearchData} />
+        <div className="p-2 mt-2 bg-gray-100 rounded-t flex flex-col gap-2">
+          <div className="md:grid space-y-2 md:space-y-0 md:grid-cols-10 justify-center items-center w-full">
+            {/* CHANGE VIEW */}
+            <div className="view-and-filter w-full md:w-1/2 flex  gap-2 md:col-span-8">
+              <div >
+                {viewBy == "list" ? (
+                  <button
+                    onClick={() => {
+                      setViewBy("grid");
+                    }}
+                    className="hover:bg-gray-50 rounded-full p-2"
+                  >
+                    <IoGridOutline className="text-2xl" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setViewBy("list");
+                    }}
+                    className="hover:bg-gray-50 rounded-full p-2"
+                  >
+                    <IoList className="text-2xl" />
+                  </button>
+                )}
+              </div>
+              <select
+                value={sortValue}
+                onChange={(event) => {
+                  const selectedValue = event.target.value;
+                  setSortValue(selectedValue);
                 }}
-                className="hover:bg-gray-50 rounded-full p-2"
+                className="w-full md:col-span-4 bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3"
               >
-                <IoGridOutline className="text-2xl" />
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setViewBy("list");
-                }}
-                className="hover:bg-gray-50 rounded-full p-2"
-              >
-                <IoList className="text-2xl" />
-              </button>
+                <option value="">Sort..</option>
+                <option value="name">Sort By Name</option>
+                <option value="email">Sort By Email</option>
+                <option value="company">Sort By Company</option>
+              </select>
+            </div>
+
+            {/* ADD USER */}
+
+            <div className="w-full md:col-span-2">
+              <AddUser setShowModal={setIsShowModal} />
+            </div>
+          </div>
+          <div className="badge flex justify-center items-center">
+            {sortValue && (
+              <div className="bg-gray-900 p-2 text-white relative rounded inline-block">
+                <span>Sorted By: </span>
+                <span className="uppercase">{sortValue}</span>
+                <button
+                  onClick={() => {
+                    setSortValue("");
+                  }}
+                  className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white"
+                >
+                  <CiCircleRemove />
+                </button>
+              </div>
             )}
           </div>
-
-          <select
-            value={sortValue}
-            onChange={(event) => {
-              const selectedValue = event.target.value;
-              setSortValue(selectedValue);
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 rounded outline-1 focus:outline-black p-2 px-3"
-          >
-            <option value="">Sort..</option>
-            <option value="name">Sort By Name</option>
-            <option value="email">Sort By Email</option>
-            <option value="company">Sort By Company</option>
-          </select>
-        </div>
-        <div className="badge">
-          {sortValue && (
-            <div className="bg-gray-900 p-2 text-white relative rounded">
-              <span>Sorted By: </span>
-              <span className="uppercase">{sortValue}</span>
-              <button
-                onClick={() => {
-                  setSortValue("");
-                }}
-                className="-mt-4 -ml-1 text-2xl absolute rounded-full bg-red-500 text-white"
-              >
-                <CiCircleRemove />
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* ADD USER AND MODAL */}
-        <div>
-          <div>
-            <AddUser setShowModal={setIsShowModal} />
-            <Modal
-              isShowModal={isShowModal}
-              onClose={() => setIsShowModal(false)}
-            />
-          </div>
-        </div>
-      </div>
-      {!isShowModal && (
         <div className="card-view-container">
           {/* LIST VIEW */}
           {viewBy == "list" && (
@@ -156,7 +153,7 @@ const Homepage = () => {
           {/* GIRD VIEW */}
           {viewBy == "grid" && (
             <div className="grid-view">
-              <div className="grid grid-cols-3 gap-5 bg-gray-50 p-3">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 bg-gray-50 p-3">
                 {sortedData.map((user) => (
                   <div key={user.id}>
                     <UserCard user={user} />
@@ -176,7 +173,8 @@ const Homepage = () => {
             Load More
           </button>
         </div>
-      )}
+      </div>
+      <Modal isShowModal={isShowModal} onClose={() => setIsShowModal(false)} />
     </div>
   );
 };

@@ -44,8 +44,8 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
   
   
   return (
-    <div className={`backdrop-blur absolute top-0 left-0 h-full w-full flex justify-center items-center p-10 transition-all ease-in-out ${isShowModal ? '' : 'hidden'}`}>
-      <div className="bg-white rounded lg:w-[50%] shadow-lg">
+    <div className={` absolute top-[100px] md:top-14 lg:top-0 left-0 h-full w-full flex justify-center items-center p-2 md:p-10 transition-all ease-in-out ${isShowModal ? '' : 'hidden'}`}>
+      <div className="bg-white rounded w-full lg:w-[50%] shadow-lg">
         <div className="modal-content">
           <div className="bg-gray-900 text-white p-3 rounded-t">
             {
@@ -68,7 +68,7 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
                   <InputField label="Last Name" name="lastName" type="text" placeholder="Enter your last name.." required />
                 </div>
                 <InputField label="Email" name="email" type="email" placeholder="Enter your email.." required />
-                <div className="input-group lg:grid lg:grid-cols-2 gap-2 w-full mt-2">
+                <div className="input-group md:grid md:grid-cols-2 gap-2 w-full mt-2">
                   <FileInputField label="Profile Picture" name="image" required />          
                   <InputField label="Company" name="company" type="text" placeholder="Enter your company.." required />
                 </div>

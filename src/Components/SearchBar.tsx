@@ -12,7 +12,7 @@ const SearchBar = ({ setSearchData }: SearchButtonProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid grid-cols-5 gap-5 justify-between w-full"
+      className="grid grid-cols-2 md:grid-cols-5 gap-5 justify-between w-full"
     >
       <input
         onChange={(event) => {
@@ -20,7 +20,7 @@ const SearchBar = ({ setSearchData }: SearchButtonProps) => {
         }}
         type="text"
         name="search"
-        className="col-span-4 bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
+        className="md:col-span-4 bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
         placeholder="Search.."
       />
 

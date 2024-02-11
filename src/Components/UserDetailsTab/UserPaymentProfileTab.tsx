@@ -2,7 +2,7 @@ import { UserDetails } from "../../Interfaces/Interfaces";
 
 export const UserPaymentProfileTab = ({ data }: { data: UserDetails }) => {
   return (
-    <div className="p-10">
+    <div className="p-2 lg:p-10">
 
     <div className="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform">
       <img
