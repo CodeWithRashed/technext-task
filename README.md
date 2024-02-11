@@ -21,3 +21,8 @@ This Project is created with Pure React and Tailwind, No Component library was u
 
 ### User Details Page Features
 * Tabs: Tab navigation for user details (Using pure react and tailwind)
+
+
+### Note
+- Used dummy json select query to reduce network load.
+- Initially only load 6 data on the homepage to reduce load.
