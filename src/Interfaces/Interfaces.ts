@@ -52,9 +52,10 @@ export interface UserDetails {
     image: string;
     bloodGroup: string;
     height: number;
-    weight: number;
+    gender: string;
     phone: string;
     age: number;
+    domain: string
 }
 
 

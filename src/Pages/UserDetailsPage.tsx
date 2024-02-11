@@ -1,20 +1,17 @@
 import { FaInfoCircle } from "react-icons/fa";
 import { GrContactInfo } from "react-icons/gr";
 import { TbListDetails } from "react-icons/tb";
-import { IoLocation } from "react-icons/io5";
-import { CgOrganisation } from "react-icons/cg";
-import { MdEmail, MdPayment } from "react-icons/md";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { UserDetails } from "../Interfaces/Interfaces";
+import { MdPayment } from "react-icons/md";
+import { UserDetailsTab } from "../Components/UserDetailsTab/UserDetails";
+import { UserContactInfoTab } from "../Components/UserDetailsTab/UserContactInfoTab";
+import { UserPersonalInfoTab } from "../Components/UserDetailsTab/UserPersonalInfoTab";
+import { UserPaymentProfileTab } from "../Components/UserDetailsTab/UserPaymentProfileTab";
 const UserDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("details");
-  const data = useLoaderData() as UserDetails
-  
-  if(!data){
-    return <div className="w-screen h-screen flex justify-center items-center">Loading...</div>
-  }
-
+  const data = useLoaderData() as UserDetails;
 
   return (
     <div>
@@ -82,7 +79,9 @@ const UserDetailsPage = () => {
               }}
             >
               <FaInfoCircle />
-              <span className="hidden lg:inline-block">Personal Information</span>
+              <span className="hidden lg:inline-block">
+                Personal Information
+              </span>
             </button>
             <button
               className={`${
@@ -101,10 +100,10 @@ const UserDetailsPage = () => {
 
           {/* TABS INFO */}
           <div className="mt-3">
-            {activeTab === "details" && <UserDetailsTab />}
-            {activeTab === "contact" && <UserContactInfoTab />}
-            {activeTab === "personal_profile" && <UserPersonalInfoTab />}
-            {activeTab === "payment_profile" && <UserPaymentProfileTab />}
+            {activeTab === "details" && <UserDetailsTab data={data} />}
+            {activeTab === "contact" && <UserContactInfoTab data={data} />}
+            {activeTab === "personal_profile" && <UserPersonalInfoTab data={data}/>}
+            {activeTab === "payment_profile" && <UserPaymentProfileTab data={data}/>}
           </div>
         </div>
       </div>
@@ -112,39 +111,9 @@ const UserDetailsPage = () => {
   );
 };
 
-//TABS COMPONENTS
-const UserDetailsTab = () => {
-  return (
-    <div>
-      {" "}
-      {/* COMPANY AND OTHER INFO */}
-      <ul>
-        <li className="flex gap-2 items-center">
-          <CgOrganisation /> <h3>compnay</h3>
-        </li>
-        <li className="flex gap-2 items-center">
-          <IoLocation />
-          <p>629 Debbie Drive, Nashville</p>
-        </li>
-        <li className="flex gap-2 items-center">
-          <MdEmail />
-          <p>atuny0@sohu.com</p>
-        </li>
-      </ul>
-    </div>
-  );
-};
 
-const UserContactInfoTab = () => {
-  return <div>contact info</div>;
-};
 
-const UserPersonalInfoTab = () => {
-  return <div>personalInfoTab</div>;
-};
 
-const UserPaymentProfileTab = () => {
-  return <div>UserPaymentProfileTab</div>;
-};
+
 
 export default UserDetailsPage;
