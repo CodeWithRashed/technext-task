@@ -1,181 +1,82 @@
 import axios from "axios";
+import { useState } from "react";
 import { ModalProps } from "../Interfaces/Interfaces";
 import { UploadImage } from "../utils/UploadImage";
+import { InputField } from "./InputField";
+import { FileInputField } from "./FileInputField";
 
 const Modal = ({ isShowModal, onClose }: ModalProps) => {
-  if (!isShowModal) return null;
-  const handleFromSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const [isUserLoading, setIsUserLoading] = useState(false)
+  const [createdUser, setCreatedUser] = useState({})
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsUserLoading(true);
     const form = event.target as HTMLFormElement;
-
-    //FORM DATA
-    const firstName = form.first_name.value;
-    const lastName = form.last_name.value;
-    const email = form.email.value;
-    const image = form.image.files[0];
-    const company = form.company.value;
-    const address = form.street.value;
-    const city = form.city.value;
-
+    console.log(form)
     try {
-      //  UPLOAD IMAGE
-      const imageUploadResponse = await UploadImage(image);
+      const imageUploadResponse = await UploadImage(form.image.files[0]);
       const userImage = imageUploadResponse.data.data.url;
-
-      // USER OBJECT
       const user = {
-        firstName,
-        lastName,
-        email,
+        firstName: form.firstName.value || "Rashed",
+        lastName: form.lastName.value || "Ali",
+        email: form.email.value || "talk.rashed@gmail.com",
         image: userImage,
-        company,
+        company: form.company.value || "TechNext",
         address: {
-          address: address,
-          city: city,
+          address: form.street.value || "Mirpur 10, Purbo Monipur, House 1176",
+          city: form.city.value || "Mirpur",
         },
       };
-      const response = await axios.post(
-        "https://dummyjson.com/users/add",
-        user
-      );
+      const response = await axios.post("https://dummyjson.com/users/add", user);
       console.log("res", response);
+      if(response.status === 200){
+        setCreatedUser(response.data)
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsUserLoading(false); // Set loading state to false after async operations complete
     }
   };
-
+  
+  
   return (
-    <div className="backdrop-blur absolute top-5 left-0 h-full w-full flex justify-center items-center p-10 transition-all ease-in-out">
+    <div className={`backdrop-blur absolute top-0 left-0 h-full w-full flex justify-center items-center p-10 transition-all ease-in-out ${isShowModal ? '' : 'hidden'}`}>
       <div className="bg-white rounded lg:w-[50%] shadow-lg">
-        <div className="bg-gray-900 text-white p-3 rounded-t">
-          <h3 className="font-bold text-center">Add New User</h3>
-        </div>
-        {/* INPUT FORM */}
-        <div className="input-form w-full p-4 ">
-          <form onSubmit={handleFromSubmit}>
-            <div className="input-group lg:grid lg:grid-cols-2 gap-2 items-center w-full">
-              <div>
-                <label htmlFor="first_name" className="block mb-2">
-                  First Name:
-                </label>
-                <input
-                  required
-                  type="text"
-                  name="first_name"
-                  className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                  placeholder="Enter your first name.."
-                />
+        <div className="modal-content">
+          <div className="bg-gray-900 text-white p-3 rounded-t">
+            <h3 className="font-bold text-center">Add New User</h3>
+          </div>
+          <div className="input-form w-full p-4 ">
+            <form onSubmit={handleFormSubmit}>
+              <div className={`${isUserLoading ? "flex" : "hidden"}`}>Adding...</div>
+              <div className="created-user">
+                
               </div>
-              <div>
-                <label htmlFor="last_name" className="block mb-2">
-                  Last Name:
-                </label>
-                <input
-                  required
-                  type="text"
-                  name="last_name"
-                  className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                  placeholder="Enter your last name.."
-                />
-              </div>
-            </div>
-            <div className="input-group w-full">
-              <label htmlFor="email" className="block mb-2">
-                Email:
-              </label>
-              <input
-                required
-                type="email"
-                name="email"
-                className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                placeholder="Enter your email.."
-              />
-            </div>
-            <div className="input-group lg:grid lg:grid-cols-3 gap-2 w-full mt-2">
-              <div className="input-group col-span-2">
-                <label className="block mb-2" htmlFor="image">
-                  Profile Picture:
-                </label>
-                <input
-                  required
-                  name="image"
-                  className="border p-1.5 rounded file:border-0 
-                          !file:bg-gray-100 file:rounded"
-                  type="file"
-                />
-              </div>
-              <div className="lg:-ml-6">
-                <label htmlFor="company" className="block mb-2">
-                  Company:
-                </label>
-                <input
-                  required
-                  name="company"
-                  type="text"
-                  className="bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                  placeholder="Enter your email.."
-                />
-              </div>
-            </div>
-
-            {/* ADDRESS INPUT GROUP */}
-            <div>
-              {/* STREET ADDRESS */}
-              <div className="input-group-address lg:grid lg:grid-cols-2 gap-2 w-full">
-                <div className="col-span-2">
-                  <label htmlFor="street" className="block mb-2">
-                    Street:
-                  </label>
-                  <input
-                    required
-                    name="street"
-                    type="text"
-                    className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                    placeholder="Enter your email.."
-                  />
+              <div className={`${!isUserLoading || !createdUser ? "all-input-groups block" : "hidden"}`}>
+                <div className="input-group lg:grid lg:grid-cols-2 gap-2 items-center w-full">
+                  <InputField label="First Name" name="firstName" type="text" placeholder="Enter your first name.." required />
+                  <InputField label="Last Name" name="lastName" type="text" placeholder="Enter your last name.." required />
+                </div>
+                <InputField label="Email" name="email" type="email" placeholder="Enter your email.." required />
+                <div className="input-group lg:grid lg:grid-cols-2 gap-2 w-full mt-2">
+                  <FileInputField label="Profile Picture" name="image" required />          
+                  <InputField label="Company" name="company" type="text" placeholder="Enter your company.." required />
                 </div>
                 <div>
-                  <label htmlFor="city" className="block mb-2">
-                    City:
-                  </label>
-                  <input
-                    required
-                    name="city"
-                    type="text"
-                    className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                    placeholder="Enter your email.."
-                  />
-                </div>
-                <div>
-                  <label htmlFor="state" className="block mb-2">
-                    State:
-                  </label>
-                  <input
-                    required
-                    type="state"
-                    className="w-full bg-gray-100 py-2 px-3 rounded outline-none focus:outline-1 focus:outline-black"
-                    placeholder="Enter your email.."
-                  />
+                  <div className="input-group-address lg:grid lg:grid-cols-2 gap-2 w-full">
+                    <InputField label="Street" name="street" type="text" placeholder="Enter your street.." required />
+                    <InputField label="City" name="city" type="text" placeholder="Enter your city.." required />
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 justify-center items-center mt-3">
-              <button
-                className="w-full bg-gray-900 text-white px-5 py-2 border-2 rounded border-gray-900"
-                type="submit"
-              >
-                Add User
-              </button>
-              <button
-                className=" w-full bg-transparent px-5 py-2 border-2 rounded border-gray-900"
-                type="button"
-                onClick={onClose}
-              >
-                Close
-              </button>
-            </div>
-          </form>
+              <div className="grid grid-cols-2 gap-2 justify-center items-center mt-3">
+                <button className="w-full bg-gray-900 text-white px-5 py-2 border-2 rounded border-gray-900" type="submit">Add User</button>
+                <button className="w-full bg-transparent px-5 py-2 border-2 rounded border-gray-900" type="button" onClick={onClose}>Close</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

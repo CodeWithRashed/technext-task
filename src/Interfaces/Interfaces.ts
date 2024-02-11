@@ -107,3 +107,21 @@ export interface UserCardProps {
 export interface SearchButtonProps {
     setSearchData: (searchData: string) => void;
 }
+
+
+// FileInputFieldData
+export interface FileInputFieldData {
+  label: string
+  name: string
+  required: boolean
+}
+
+
+// InputFieldData
+export interface InputFieldData {
+  label: string
+  name: string
+  type: string
+  placeholder: string
+  required: boolean
+}
