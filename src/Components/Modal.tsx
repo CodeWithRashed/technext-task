@@ -20,14 +20,14 @@ const Modal = ({ isShowModal, onClose }: ModalProps) => {
       const imageUploadResponse = await UploadImage(form.image.files[0]);
       const userImage = imageUploadResponse.data.data.url;
       const user = {
-        firstName: form.firstName.value || "Rashed",
-        lastName: form.lastName.value || "Ali",
-        email: form.email.value || "talk.rashed@gmail.com",
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        email: form.email.value,
         image: userImage,
-        company: form.company.value || "TechNext",
+        company: form.company.value,
         address: {
-          address: form.street.value || "Mirpur 10, Purbo Monipur, House 1176",
-          city: form.city.value || "Mirpur",
+          address: form.street.value ,
+          city: form.city.value,
         },
       };
       const response = await axios.post("https://dummyjson.com/users/add", user);
