@@ -4,12 +4,13 @@ import Homepage from "../Pages/Homepage";
 import UserDetailsPage from "../Pages/UserDetailsPage";
 import { getUserData } from "../utils/getUserData";
 import { getSingleUser } from "../utils/getSingleUser";
+import Error from "../Pages/Error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout/>,
-    errorElement: <div>Error 404</div>,
+    errorElement: <div><Error/></div>,
     children: [
       {
         path: "/",
