@@ -2,7 +2,6 @@ interface Coordinates {
     lat: number;
     lng: number;
 }
-
 interface Address {
     address: string;
     city: string;
@@ -10,21 +9,18 @@ interface Address {
     postalCode: string;
     state: string;
 }
-
 interface CompanyAddress {
     address: string;
     coordinates: Coordinates;
     postalCode: string;
     state: string;
 }
-
 interface Company {
     address: CompanyAddress;
     department: string;
     name: string;
     title: string;
 }
-
 interface Bank {
     cardExpire: string;
     cardNumber: string;
@@ -32,14 +28,6 @@ interface Bank {
     currency: string;
     iban: string;
 }
-
-//ModalProps
-export interface ModalProps {
-    isShowModal: boolean;
-    onClose: () => void;
-  }
-  
-
 export interface UserDetails {
     id: number;
     firstName: string;
@@ -57,8 +45,6 @@ export interface UserDetails {
     age: number;
     domain: string
 }
-
-
 export interface User {
     id: number;
     firstName: string;
@@ -91,21 +77,22 @@ export interface User {
       title: string;
     };
   }
-  
-
 //UserCardProps
 export interface UserCardProps {
     user: User;
   }
-  
-
-
   //ModalButtonProps
   export interface ModalProps {
     isShowModal: boolean;
     sortedData: User[];
     setSortedData: React.Dispatch<React.SetStateAction<User[]>>;
     onClose: () => void;
+}
+
+
+  //ModalButtonProps
+  export interface AddUserButtonProps {
+    setIsShowModal: (show: boolean) => void;
 }
 
 export interface SearchButtonProps {
@@ -129,15 +116,4 @@ export interface InputFieldData {
   placeholder: string
   required: boolean
 }
-// NewCreatedUser
-export interface NewCreatedUser {
-  firstName: string
-  lastName: string
-  email: string
-  image: string
-  company: string
-  address : {
-      address: string
-      city: string
-  }
-}
+

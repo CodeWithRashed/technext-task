@@ -115,7 +115,7 @@ const Homepage = () => {
             {/* ADD USER */}
 
             <div className="w-full md:col-span-2">
-              <AddUser setShowModal={setIsShowModal} />
+              <AddUser setIsShowModal={setIsShowModal} />
             </div>
           </div>
           <div className="badge flex justify-center items-center">
