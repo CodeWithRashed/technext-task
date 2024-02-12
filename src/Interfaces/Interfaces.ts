@@ -101,8 +101,11 @@ export interface UserCardProps {
 
 
   //ModalButtonProps
-  export interface ModalButtonProps {
-    setShowModal: (show: boolean) => void;
+  export interface ModalProps {
+    isShowModal: boolean;
+    sortedData: User[];
+    setSortedData: React.Dispatch<React.SetStateAction<User[]>>;
+    onClose: () => void;
 }
 
 export interface SearchButtonProps {

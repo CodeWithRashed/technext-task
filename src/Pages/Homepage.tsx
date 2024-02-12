@@ -174,7 +174,7 @@ const Homepage = () => {
           </button>
         </div>
       </div>
-      <Modal isShowModal={isShowModal} onClose={() => setIsShowModal(false)} />
+      <Modal isShowModal={isShowModal} sortedData={sortedData} setSortedData={setSortedData} onClose={() => setIsShowModal(false)} />
     </div>
   );
 };

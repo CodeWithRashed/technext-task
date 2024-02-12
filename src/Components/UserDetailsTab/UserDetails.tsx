@@ -7,6 +7,7 @@ import { UserDetails } from "../../Interfaces/Interfaces";
 
 
 export const UserDetailsTab = ({ data }: { data: UserDetails }) => {
+  console.log(data)
     return (
       <div>
         {/* COMPANY AND OTHER INFO */}

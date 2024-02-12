@@ -1,6 +1,6 @@
-import { NewCreatedUser } from "../Interfaces/Interfaces";
+import { User } from "../Interfaces/Interfaces";
 
-const DisplayAddedUser = ({ createdUser }: { createdUser?: NewCreatedUser }) => {
+const DisplayAddedUser = ({ createdUser }: { createdUser?: User }) => {
     console.log(createdUser)
     if (!createdUser || Object.keys(createdUser).length === 0) {
         return <div>No user data available</div>;
@@ -26,7 +26,7 @@ const DisplayAddedUser = ({ createdUser }: { createdUser?: NewCreatedUser }) => 
         {/* USER DETAILS INFO */}
         <div className="text-center">
           <h1 className="text-center text-3xl">{`${createdUser.firstName} ${createdUser.lastName}`}</h1>
-          <h3 className="text-base text-gray-400">{createdUser.company}</h3>
+          <h3 className="text-base text-gray-400">{createdUser.company.name}</h3>
         </div>
 
     </div>
